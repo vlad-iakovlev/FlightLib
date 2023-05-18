@@ -8,7 +8,7 @@ plugins {
 }
 
 base {
-    archivesName.set("${mod_id}-common-${mod_version}")
+    archivesName.set("${mod_id}-api-${mod_version}")
 }
 
 minecraft {
@@ -16,8 +16,5 @@ minecraft {
 }
 
 dependencies {
-    compileOnly("org.spongepowered:mixin:0.8.5")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
-
-    implementation(project(":api"))
 }

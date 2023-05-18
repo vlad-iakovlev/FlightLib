@@ -16,6 +16,7 @@ import java.util.function.Consumer
 object ControlManager {
 
     private val KEYS = mutableMapOf<Player, MutableMap<FlightKey, Boolean>>()
+    private var LAST_PRESS = mutableMapOf<FlightKey, Long>()
 
     internal fun isPressed(key: FlightKey, entity: LivingEntity): Boolean {
         if (entity !is Player) return false
@@ -55,7 +56,7 @@ object ControlManager {
         }
     }
 
-    internal fun sync(event: KeyEvent) {
+    private fun sync(event: KeyEvent) {
         val player = Minecraft.getInstance().player ?: return
         Services.NETWORK.sendToServer(event)
         handle(player, event)
@@ -74,16 +75,24 @@ object ControlManager {
 
     }
 
+    private fun FlightKey.canPressAgain(): Boolean {
+        return LAST_PRESS[this]?.let {
+            (System.currentTimeMillis() - it) > 100
+        } ?: true
+    }
+
     fun checkKeys() {
         val player = Minecraft.getInstance().player ?: return
         IFlightApi.INSTANCE.findJetpack(player) ?: return
 
-        val key = FlightKey.values()
+        FlightKey.values()
             .filter { it.toggle }
-            .firstOrNull { it.binding.get().isDown } ?: return
-
-        sync(KeyEvent(key, !key.isPressed(player), true))
-
+            .filter { it.binding.get().isDown }
+            .filter { it.canPressAgain() }
+            .forEach { key ->
+                LAST_PRESS[key] = System.currentTimeMillis()
+                sync(KeyEvent(key, !key.isPressed(player), true))
+            }
     }
 
 }

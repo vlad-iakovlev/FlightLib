@@ -2,8 +2,8 @@ package com.possible_triangle.flightlib.init
 
 import com.possible_triangle.flightlib.api.ControlType
 import com.possible_triangle.flightlib.api.IJetpack
+import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.core.particles.ParticleTypes
-import net.minecraft.core.particles.SimpleParticleType
 import net.minecraft.world.phys.Vec3
 
 object DevJetpack : IJetpack {
@@ -28,6 +28,6 @@ object DevJetpack : IJetpack {
 
     override fun getThrusters(context: IJetpack.Context) = THRUSTERS
 
-    override fun createParticles(): SimpleParticleType = ParticleTypes.FLAME
+    override fun createParticles(): ParticleOptions = ParticleTypes.FLAME
 
 }

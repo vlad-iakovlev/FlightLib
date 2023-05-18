@@ -1,6 +1,7 @@
 import org.spongepowered.asm.gradle.plugins.MixinExtension
 
 val minecraft_version: String by extra
+val mod_version: String by extra
 val mod_id: String by extra
 val forge_version: String by extra
 val curios_forge_version: String by extra
@@ -13,13 +14,12 @@ buildscript {
 
 plugins {
     id("eclipse")
-    id("maven-publish")
     id("net.minecraftforge.gradle") version ("5.1.+")
     id("org.jetbrains.kotlin.jvm")
 }
 
 base {
-    archivesName.set("${mod_id}-forge-${minecraft_version}")
+    archivesName.set("${mod_id}-forge-${mod_version}")
 }
 
 apply(plugin = "org.spongepowered.mixin")
@@ -28,6 +28,12 @@ configure<MixinExtension> {
     add(sourceSets.main.get(), "${mod_id}.refmap.json")
     config("${mod_id}.mixins.json")
 }
+
+val dependencyProjects = listOf(
+    project(":api"),
+    project(":forge-api"),
+    project(":common"),
+)
 
 minecraft {
     mappings("official", minecraft_version)
@@ -45,7 +51,9 @@ minecraft {
             mods {
                 create(mod_id) {
                     source(sourceSets.main.get())
-                    source(project(":common").sourceSets.main.get())
+                    dependencyProjects.forEach {
+                        source(it.sourceSets.main.get())
+                    }
                 }
             }
         }
@@ -59,7 +67,9 @@ minecraft {
             mods {
                 create(mod_id) {
                     source(sourceSets.main.get())
-                    source(project(":common").sourceSets.main.get())
+                    dependencyProjects.forEach {
+                        source(it.sourceSets.main.get())
+                    }
                 }
             }
         }
@@ -69,27 +79,27 @@ minecraft {
 dependencies {
     minecraft("net.minecraftforge:forge:${minecraft_version}-${forge_version}")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
-    compileOnly(project(":common"))
+
+    dependencyProjects.forEach { implementation(it) }
 
     implementation(fg.deobf("top.theillusivec4.curios:curios-forge:${curios_forge_version}"))
 
     implementation("thedarkcolour:kotlinforforge:3.9.1")
+
+    annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
 }
 
-//tasks.withType<JavaCompile> {
-//    source(project(":common").sourceSets.main.allSource)
-//}
-//
-//tasks.named("compileKotlin") {
-//    source(project(":common").sourceSets.main.allSource)
-//}
-
-//processResources {
-//    from(project(":common").sourceSets.main.resources)
-//}
+tasks.withType<JavaCompile> {
+    source(project(":common").sourceSets["main"].allSource)
+}
 
 tasks.jar {
     finalizedBy("reobfJar")
+
+    from(sourceSets.main.get().output)
+    dependencyProjects.forEach {
+        from(it.sourceSets.main.get().output)
+    }
 }
 
 val sourcesJar = tasks.named<Jar>("sourcesJar")

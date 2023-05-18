@@ -14,5 +14,9 @@ pluginManagement {
 }
 
 rootProject.name = "Flight Lib"
-include("common", "fabric", "forge")
+include(
+    "api", "common",
+    "forge-api", "forge",
+    "fabric",
+)
 

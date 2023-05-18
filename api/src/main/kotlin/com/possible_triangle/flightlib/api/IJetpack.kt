@@ -1,6 +1,6 @@
 package com.possible_triangle.flightlib.api
 
-import net.minecraft.core.particles.SimpleParticleType
+import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3
@@ -76,6 +76,6 @@ interface IJetpack {
         return FlightKey.UP.isPressed(entity)
     }
 
-    fun createParticles(): SimpleParticleType
+    fun createParticles(): ParticleOptions
 
 }

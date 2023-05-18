@@ -1,29 +1,37 @@
-val version: String by extra
+import groovy.util.Node
+import groovy.util.NodeList
+import java.time.LocalDateTime
+
+val mod_version: String by extra
 val mod_name: String by extra
 val mod_id: String by extra
 val mod_author: String by extra
 val minecraft_version: String by extra
 val repository: String by extra
+val artifactGroup: String by extra
 
 plugins {
     java
+    id("maven-publish")
     id("org.jetbrains.kotlin.jvm") version ("1.8.21") apply (false)
 }
 
 subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
+    apply(plugin = "maven-publish")
 
     java {
         toolchain {
             languageVersion.set(JavaLanguageVersion.of(17))
         }
         withSourcesJar()
-        withSourcesJar()
+        withJavadocJar()
     }
 
     tasks.withType<Jar> {
-        val now = "test" //TODO java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(java.util.Date())
+        val now = LocalDateTime.now().toString()
 
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         from(rootProject.file("LICENSE")) {
             rename { "${it}_${mod_name}" }
         }
@@ -33,7 +41,7 @@ subprojects {
                 mapOf(
                     "Specification-Title" to mod_name,
                     "Specification-Vendor" to mod_author,
-                    "Specification-Version" to version,
+                    "Specification-Version" to mod_version,
                     "Implementation-Title" to name,
                     "Implementation-Version" to archiveVersion,
                     "Implementation-Vendor" to mod_author,
@@ -43,11 +51,12 @@ subprojects {
         }
     }
 
-    tasks.named<Jar>("sourcesJar") {
-        from(rootProject.file("LICENSE")) {
-            rename { "${it}_${mod_name}" }
-        }
-    }
+    //tasks.named<Jar>("sourcesJar") {
+    //    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    //    from(rootProject.file("LICENSE")) {
+    //        rename { "${it}_${mod_name}" }
+    //    }
+    //}
 
     repositories {
         mavenCentral()
@@ -80,7 +89,7 @@ subprojects {
         }
     }
 
-    // Disables Gradle"s custom module metadata from being published to maven. The
+    // Disables Gradle's custom module metadata from being published to maven. The
     // metadata includes mapped dependencies which are not reasonably consumable by
     // other mod developers.
     tasks.withType<GenerateModuleMetadata> {
@@ -94,13 +103,43 @@ subprojects {
         filesMatching(listOf("META-INF/mods.toml", "pack.mcmeta", "fabric.mod.json", "${mod_id}.mixins.json")) {
             expand(
                 mapOf(
-                    "version" to version,
+                    "version" to mod_version,
                     "mod_name" to mod_name,
                     "mod_id" to mod_id,
                     "mod_author" to mod_author,
                     "repository" to repository,
                 )
             )
+        }
+    }
+
+    val env = System.getenv()
+
+    publishing {
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/${repository}")
+                version = mod_version
+                credentials {
+                    username = env["GITHUB_ACTOR"]
+                    password = env["GITHUB_TOKEN"]
+                }
+            }
+        }
+        publications {
+            create<MavenPublication>("gpr") {
+                groupId = artifactGroup
+                artifactId = "${mod_id}-${project.name}"
+                version = mod_version
+                from(components["java"])
+
+                pom.withXml {
+                    val node = asNode()
+                    val list = node.get("dependencies") as NodeList
+                    list.forEach { node.remove(it as Node) }
+                }
+            }
         }
     }
 }
