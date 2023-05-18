@@ -6,6 +6,7 @@ import com.possible_triangle.flightlib.forge.services.ForgeNetwork;
 import com.possible_triangle.flightlib.forge.services.ForgeRegistries;
 import com.possible_triangle.flightlib.init.CommonClass;
 import com.possible_triangle.flightlib.logic.ControlManager;
+import com.possible_triangle.flightlib.logic.ControlSender;
 import com.possible_triangle.flightlib.logic.JetpackLogic;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraftforge.client.event.InputEvent;
@@ -27,21 +28,24 @@ public class ForgeEntrypoint {
         var modBus = FMLJavaModLoadingContext.get().getModEventBus();
         var forgeBus = MinecraftForge.EVENT_BUS;
 
-        modBus.addListener((FMLClientSetupEvent event) -> CommonClass.INSTANCE.clientInit());
+        modBus.addListener((FMLClientSetupEvent $) -> {
+            CommonClass.INSTANCE.clientInit();
+
+            modBus.addListener((RegisterKeyMappingsEvent event) -> ControlManager.INSTANCE.registerKeybinds(event::register));
+            forgeBus.addListener((InputEvent.Key event) -> ControlSender.INSTANCE.checkKeys());
+        });
 
         ForgeNetwork.Companion.init();
         ForgeRegistries.Companion.register(modBus);
         ForgeSources.INSTANCE.register();
         CuriosCompat.INSTANCE.register(modBus);
 
-        modBus.addListener((RegisterKeyMappingsEvent event) -> ControlManager.INSTANCE.registerKeybinds(event::register));
-
         forgeBus.addListener((PlayerTickEvent event) -> {
-            if (event.player instanceof LocalPlayer player) ControlManager.INSTANCE.onTick(player);
+            if (event.player instanceof LocalPlayer player) ControlSender.INSTANCE.onTick(player);
             JetpackLogic.INSTANCE.onTick(event.player);
         });
 
-        forgeBus.addListener((InputEvent.Key event) -> ControlManager.INSTANCE.checkKeys());
+        forgeBus.addListener((InputEvent.Key event) -> ControlSender.INSTANCE.checkKeys());
 
         forgeBus.addListener((PlayerChangedDimensionEvent event) -> ControlManager.INSTANCE.reset(event.getEntity()));
         forgeBus.addListener((PlayerLoggedOutEvent event) -> ControlManager.INSTANCE.reset(event.getEntity()));

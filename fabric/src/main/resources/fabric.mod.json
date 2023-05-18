@@ -18,7 +18,7 @@
       "com.possible_triangle.flightlib.fabric.FabricEntrypoint"
     ],
     "client": [
-      "com.possible_triangle.flightlib.fabric.FabricEntrypoint"
+      "com.possible_triangle.flightlib.fabric.FabricClientEntrypoint"
     ]
   },
   "mixins": [
