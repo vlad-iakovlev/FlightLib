@@ -1,0 +1,11 @@
+{
+  "message.flightlib.control.toggle_active": "Jetpack-Motor %s",
+  "message.flightlib.control.toggle_hover": "Jetpack-Schwebemodus %s",
+  "message.flightlib.control.on": "angeschalten",
+  "message.flightlib.control.off": "abgeschalten",
+  "overlay.flightlib.control.toggle_hover": "Schweben",
+  "overlay.flightlib.control.toggle_active": "Motor",
+  "key.jetpack.toggle_hover.description": "Schalte Jetpack-Motor an/ab",
+  "key.jetpack.toggle_active.description": "Schalte Jetpack-Schebemodus an/ab",
+  "flightlib.subtitle.whoosh": "Jetpack rauscht"
+}

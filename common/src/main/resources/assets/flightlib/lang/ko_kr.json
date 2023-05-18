@@ -1,0 +1,11 @@
+{
+  "message.flightlib.control.toggle_active": "제트팩 엔진 %s",
+  "message.flightlib.control.toggle_hover": "제트팩 호버 모드 %s",
+  "message.flightlib.control.on": "켜짐",
+  "message.flightlib.control.off": "꺼짐",
+  "overlay.flightlib.control.toggle_hover": "호버",
+  "overlay.flightlib.control.toggle_active": "활성화",
+  "key.jetpack.toggle_hover.description": "호버 모드 켜기/끄기",
+  "key.jetpack.toggle_active.description": "제트팩 엔진 켜기/끄기",
+  "flightlib.subtitle.whoosh": "제트팩에서 바람 소리가 남"
+}

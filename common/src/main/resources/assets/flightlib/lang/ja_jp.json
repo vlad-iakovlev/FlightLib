@@ -1,0 +1,11 @@
+{
+  "message.flightlib.control.toggle_active": "ジェットパックのエンジンを%s",
+  "message.flightlib.control.toggle_hover": "ジェットパックのホバーモードを%s",
+  "message.flightlib.control.on": "有効化",
+  "message.flightlib.control.off": "無効化",
+  "overlay.flightlib.control.toggle_hover": "ホバー",
+  "overlay.flightlib.control.toggle_active": "エンジン",
+  "key.jetpack.toggle_hover.description": "ホバーモードの切り替え",
+  "key.jetpack.toggle_active.description": "エンジンの切り替え",
+  "flightlib.subtitle.whoosh": "ジェットパンクが噴射される"
+}

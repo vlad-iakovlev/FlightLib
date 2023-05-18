@@ -1,0 +1,10 @@
+{
+  "message.flightlib.control.toggle_active": "Motor jetpack %s",
+  "message.flightlib.control.toggle_hover": "Modo flotante %s",
+  "message.flightlib.control.on": "on",
+  "message.flightlib.control.off": "off",
+  "overlay.flightlib.control.toggle_hover": "Flotar",
+  "overlay.flightlib.control.toggle_active": "Activar",
+  "key.jetpack.toggle_hover.description": "Alternar el modo flotante",
+  "key.jetpack.toggle_active.description": "Alternar motor del Jetpack"
+}
