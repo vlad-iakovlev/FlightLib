@@ -97,6 +97,8 @@ object JetpackLogic {
     }
 
     private fun elytraBoost(ctx: Context): Boolean {
+        if(!ctx.jetpack.boostsElytra()) return false
+
         val entity = ctx.entity
         if (!entity.isFallFlying) return true
         if (entity !is Player || !FlightKey.UP.isPressed(entity)) return false

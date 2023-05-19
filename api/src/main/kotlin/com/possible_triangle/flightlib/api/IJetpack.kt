@@ -46,6 +46,7 @@ interface IJetpack {
     }
 
     fun swimModifier(context: Context): Double
+    fun boostsElytra(): Boolean = true
 
     fun isValid(context: Context): Boolean
     fun isUsable(context: Context): Boolean
