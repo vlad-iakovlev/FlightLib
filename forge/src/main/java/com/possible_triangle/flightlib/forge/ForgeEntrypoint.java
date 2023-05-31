@@ -37,10 +37,7 @@ public class ForgeEntrypoint {
         ForgeSources.INSTANCE.register();
         CuriosCompat.INSTANCE.register(modBus);
 
-        forgeBus.addListener((PlayerTickEvent event) -> {
-            if (event.player instanceof LocalPlayer player) ControlSender.INSTANCE.onTick(player);
-            JetpackLogic.INSTANCE.onTick(event.player);
-        });
+        forgeBus.addListener((PlayerTickEvent event) -> JetpackLogic.INSTANCE.onTick(event.player));
 
         forgeBus.addListener((InputEvent.Key event) -> ControlSender.INSTANCE.checkKeys());
 
@@ -53,6 +50,9 @@ public class ForgeEntrypoint {
 
         modBus.addListener((RegisterKeyMappingsEvent event) -> ControlManager.INSTANCE.registerKeybinds(event::register));
         forgeBus.addListener((InputEvent.Key event) -> ControlSender.INSTANCE.checkKeys());
+        forgeBus.addListener((PlayerTickEvent event) -> {
+            if(event.player instanceof LocalPlayer player) ControlSender.INSTANCE.onTick(player);
+        });
     }
 
 }
