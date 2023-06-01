@@ -39,8 +39,6 @@ public class ForgeEntrypoint {
 
         forgeBus.addListener((PlayerTickEvent event) -> JetpackLogic.INSTANCE.onTick(event.player));
 
-        forgeBus.addListener((InputEvent.Key event) -> ControlSender.INSTANCE.checkKeys());
-
         forgeBus.addListener((PlayerChangedDimensionEvent event) -> ControlManager.INSTANCE.reset(event.getEntity()));
         forgeBus.addListener((PlayerLoggedOutEvent event) -> ControlManager.INSTANCE.reset(event.getEntity()));
     }
