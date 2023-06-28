@@ -11,7 +11,7 @@ object FabricSources {
 
     fun register() {
         CommonSources.addEntitySources { it.asJetpack() }
-        CommonSources.addEquipmentSources { it.asJetpack() }
+        CommonSources.addEquipmentSources { it.item.asJetpack() }
     }
 
 }
