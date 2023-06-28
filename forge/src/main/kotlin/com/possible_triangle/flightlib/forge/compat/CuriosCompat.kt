@@ -3,7 +3,7 @@ package com.possible_triangle.flightlib.forge.compat
 import com.possible_triangle.flightlib.api.IFlightApi
 import com.possible_triangle.flightlib.api.ISource
 import com.possible_triangle.flightlib.api.sources.CuriosSource
-import com.possible_triangle.flightlib.forge.ForgeSources.asProvider
+import com.possible_triangle.flightlib.forge.ForgeSources.asJetpack
 import net.minecraft.world.entity.LivingEntity
 import net.minecraftforge.eventbus.api.IEventBus
 import net.minecraftforge.fml.InterModComms
@@ -34,7 +34,7 @@ object CuriosCompat {
                 val slots = 0 until handler.slots
                 slots.map { index ->
                     val stack = handler.stacks.getStackInSlot(index)
-                    stack.asProvider(CuriosSource(slot, index))
+                    ISource.ProviderEntry(CuriosSource(slot, index)) { stack.asJetpack() }
                 }
             }
         }.orElseGet(::emptyList)

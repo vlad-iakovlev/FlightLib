@@ -15,6 +15,7 @@ public class FabricEntrypoint implements ModInitializer {
         CommonClass.INSTANCE.init();
 
         FabricNetwork.Companion.register();
+        FabricSources.INSTANCE.register();
 
         ServerTickEvents.START_SERVER_TICK.register(server ->
                 server.getPlayerList().getPlayers().forEach(JetpackLogic.INSTANCE::onTick)

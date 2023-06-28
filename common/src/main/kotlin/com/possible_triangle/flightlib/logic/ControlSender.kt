@@ -13,7 +13,7 @@ object ControlSender {
 
     private fun FlightKey.canPressAgain(): Boolean {
         return LAST_PRESS[this]?.let {
-            (System.currentTimeMillis() - it) > 100
+            (System.currentTimeMillis() - it) > 150
         } ?: true
     }
 
