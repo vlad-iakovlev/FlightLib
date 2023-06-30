@@ -3,6 +3,7 @@ val mod_version: String by extra
 val mod_id: String by extra
 val fabric_loader_version: String by extra
 val fabric_version: String by extra
+val kotlin_fabric_version: String by extra
 
 plugins {
     id("fabric-loom") version ("1.0-SNAPSHOT")
@@ -28,7 +29,7 @@ dependencies {
 
     implementation("com.google.code.findbugs:jsr305:3.0.2")
 
-    modImplementation("net.fabricmc:fabric-language-kotlin:1.9.1+kotlin.1.8.10")
+    modImplementation("net.fabricmc:fabric-language-kotlin:${kotlin_fabric_version}")
 
     dependencyProjects.forEach { implementation(it) }
 }

@@ -5,6 +5,7 @@ val mod_version: String by extra
 val mod_id: String by extra
 val forge_version: String by extra
 val curios_forge_version: String by extra
+val kotlin_forge_version: String by extra
 
 buildscript {
     dependencies {
@@ -84,7 +85,7 @@ dependencies {
 
     implementation(fg.deobf("top.theillusivec4.curios:curios-forge:${curios_forge_version}"))
 
-    implementation("thedarkcolour:kotlinforforge:3.9.1")
+    implementation("thedarkcolour:kotlinforforge:${kotlin_forge_version}")
 
     annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
 }

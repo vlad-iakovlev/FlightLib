@@ -24,3 +24,10 @@ issueTrackerURL="https://github.com/${repository}/issues"
     versionRange="[1.19.2,1.20)"
     ordering="NONE"
     side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="kotlinforforge"
+    mandatory=true
+    versionRange="[3.9.1,)"
+    ordering="NONE"
+    side="BOTH"
