@@ -13,7 +13,9 @@ interface IFlightApi {
         }
     }
 
-    fun addSource(provider: ISource.Provider)
+    fun addSourceProvider(provider: ISource.Provider)
+
+    fun addSourceCaster(caster: ISource.Caster)
 
     fun getAll(entity: LivingEntity): List<ISource.ProviderEntry>
 

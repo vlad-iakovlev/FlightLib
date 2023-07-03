@@ -1,5 +1,6 @@
 package com.possible_triangle.flightlib.fabric;
 
+import com.possible_triangle.flightlib.fabric.compat.TrinketsCompat;
 import com.possible_triangle.flightlib.fabric.services.FabricNetwork;
 import com.possible_triangle.flightlib.init.CommonClass;
 import com.possible_triangle.flightlib.logic.ControlManager;
@@ -16,6 +17,7 @@ public class FabricEntrypoint implements ModInitializer {
 
         FabricNetwork.Companion.register();
         FabricSources.INSTANCE.register();
+        TrinketsCompat.INSTANCE.register();
 
         ServerTickEvents.START_SERVER_TICK.register(server ->
                 server.getPlayerList().getPlayers().forEach(JetpackLogic.INSTANCE::onTick)

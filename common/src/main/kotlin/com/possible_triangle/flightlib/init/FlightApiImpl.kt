@@ -7,13 +7,25 @@ import net.minecraft.world.entity.player.Player
 
 object FlightApiImpl : IFlightApi {
     private val PROVIDERS = arrayListOf<ISource.Provider>()
+    private val CASTERS = arrayListOf<ISource.Caster>()
 
-    override fun addSource(provider: ISource.Provider) {
+    override fun addSourceProvider(provider: ISource.Provider) {
         PROVIDERS.add(provider)
     }
 
+    override fun addSourceCaster(caster: ISource.Caster) {
+        CASTERS.add(caster)
+    }
+
     override fun getAll(entity: LivingEntity): List<ISource.ProviderEntry> {
-        return PROVIDERS.flatMap { it.get(entity) }
+        val objects = PROVIDERS.flatMap { it.get(entity) }
+        return objects.flatMap { (value, source) ->
+            CASTERS.flatMap { caster ->
+                caster.get(value).map {
+                    ISource.ProviderEntry(source, it)
+                }
+            }
+        }
     }
 
     override fun findJetpack(entity: LivingEntity): IJetpack.Context? {

@@ -87,6 +87,18 @@ subprojects {
                 includeGroup("thedarkcolour")
             }
         }
+        maven {
+            url = uri("https://maven.terraformersmc.com/")
+            content {
+                includeGroup("dev.emi")
+            }
+        }
+        maven {
+            url = uri("https://maven.ladysnake.org/releases")
+            content {
+                includeGroup("dev.onyxstudios.cardinal-components-api")
+            }
+        }
     }
 
     // Disables Gradle's custom module metadata from being published to maven. The
