@@ -73,7 +73,7 @@ interface IJetpack {
             )
         ) return false
         if (context.pose == FlyingPose.SUPERMAN && entity.deltaMovement.length() > 0.1) return true
-        if (isHovering(context) && !entity.isOnGround) return true
+        if (isHovering(context) && !entity.onGround()) return true
         return FlightKey.UP.isPressed(entity)
     }
 

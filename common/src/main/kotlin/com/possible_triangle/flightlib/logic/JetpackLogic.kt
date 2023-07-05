@@ -103,7 +103,7 @@ object JetpackLogic {
         if (!entity.isFallFlying) return true
         if (entity !is Player || !FlightKey.UP.isPressed(entity)) return false
 
-        if (entity.level.gameTime % 15 == 0L) {
+        if (entity.level().gameTime % 15 == 0L) {
             val look = entity.lookAngle
             val factor = { i: Double -> i * 0.1 + (i * 1.1 - i) * 0.5 }
             entity.deltaMovement = entity.deltaMovement.add(
@@ -124,7 +124,7 @@ object JetpackLogic {
         val hovering = IFlightApi.INSTANCE.isActive(ctx.jetpack.hoverType(ctx), FlightKey.TOGGLE_HOVER, entity)
 
         if (ctx.entity.vehicle != null) return false
-        if (ctx.entity.isOnGround && !buttonUp) return false
+        if (ctx.entity.onGround() && !buttonUp) return false
 
         val verticalSpeed = if (hovering) ctx.jetpack.hoverVerticalSpeed(ctx)
         else ctx.jetpack.verticalSpeed(ctx)

@@ -29,7 +29,7 @@ object FlightApiImpl : IFlightApi {
     }
 
     override fun findJetpack(entity: LivingEntity): IJetpack.Context? {
-        val world = entity.level ?: return null
+        val world = entity.level() ?: return null
         val pose = FlyingPose.get(entity)
         return getAll(entity).asSequence().map { it.source to it.provider() }
             .filter { (_, jetpack) -> jetpack != null }
