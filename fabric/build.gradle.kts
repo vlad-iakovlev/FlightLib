@@ -55,11 +55,17 @@ loom {
             ideConfigGenerated(true)
             runDir("run/server")
         }
+
+        mods {
+            create(mod_id) {
+                dependencyProjects.forEach { sourceSet(it.sourceSets["main"]) }
+            }
+        }
     }
 }
 
 tasks.withType<JavaCompile> {
-    source(project(":common").sourceSets["main"].allSource)
+    dependencyProjects.forEach { source(it.sourceSets["main"].allSource) }
 }
 
 tasks.jar {

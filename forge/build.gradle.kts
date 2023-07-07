@@ -91,7 +91,7 @@ dependencies {
 }
 
 tasks.withType<JavaCompile> {
-    source(project(":common").sourceSets["main"].allSource)
+    dependencyProjects.forEach { source(it.sourceSets["main"].allSource) }
 }
 
 tasks.jar {
