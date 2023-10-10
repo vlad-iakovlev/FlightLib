@@ -3,8 +3,8 @@ package com.possible_triangle.flightlib.forge.compat
 import com.possible_triangle.flightlib.api.IFlightApi
 import com.possible_triangle.flightlib.api.ISource
 import com.possible_triangle.flightlib.api.sources.CuriosSource
-import com.possible_triangle.flightlib.forge.ForgeSources.asProvider
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.item.Item
 import net.minecraftforge.eventbus.api.IEventBus
 import net.minecraftforge.fml.InterModComms
 import net.minecraftforge.fml.ModList
@@ -24,17 +24,17 @@ object CuriosCompat {
             }
         }
 
-        IFlightApi.INSTANCE.addSource(::getCuriosStacksSafe)
+        IFlightApi.INSTANCE.addSourceProvider(::getCuriosStacks)
     }
 
-    private fun getCuriosStacksSafe(entity: LivingEntity): List<ISource.ProviderEntry> {
+    private fun getCuriosStacks(entity: LivingEntity): List<Pair<Item,ISource>> {
         val curios = entity.getCapability(CuriosCapability.INVENTORY)
         return curios.map {
             it.curios.entries.flatMap { (slot, handler) ->
                 val slots = 0 until handler.slots
                 slots.map { index ->
                     val stack = handler.stacks.getStackInSlot(index)
-                    stack.asProvider(CuriosSource(slot, index))
+                    stack.item to (CuriosSource(slot, index, stack))
                 }
             }
         }.orElseGet(::emptyList)
