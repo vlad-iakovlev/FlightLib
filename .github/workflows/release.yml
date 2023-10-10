@@ -1,14 +1,13 @@
-name: Release
+name: Build & Release
 on:
   release:
     types: [created]
 
 jobs:
-  build:
-    runs-on: ubuntu-20.04
-    timeout-minutes: 20
+  release:
+    runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       packages: write
     steps:
       - uses: actions/checkout@v3
@@ -24,8 +23,8 @@ jobs:
       - name: Update mod version
         uses: christian-draeger/write-properties@1.0.1
         with:
-          path: "gradle.properties"
-          property: "mod_version"
+          path: 'gradle.properties'
+          property: 'mod_version'
           value: ${{ github.event.release.tag_name }}
 
       - name: Build and upload
@@ -34,4 +33,4 @@ jobs:
           arguments: build publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CHANGELOG: ${{ github.event.release.body }}
+          CI: true

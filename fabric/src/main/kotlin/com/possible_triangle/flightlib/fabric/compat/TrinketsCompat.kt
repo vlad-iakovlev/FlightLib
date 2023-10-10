@@ -20,8 +20,8 @@ object TrinketsCompat {
         val trinkets = TrinketsApi.getTrinketComponent(entity)
         return trinkets.map {
             it.allEquipped.map { tuple ->
-                val item = tuple.b.item
-                item to TrinketsSource(tuple.a.index)
+                val stack = tuple.b
+                stack.item to TrinketsSource(tuple.a.index, stack)
             }
         }.orElseGet(::emptyList)
     }

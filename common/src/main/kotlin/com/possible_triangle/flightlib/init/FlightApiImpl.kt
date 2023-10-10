@@ -46,6 +46,10 @@ object FlightApiImpl : IFlightApi {
         }
     }
 
+    private fun IJetpack.Context.isUsable(): Boolean {
+        return jetpack.isUsable(this) && !source.isDisabled(this)
+    }
+
     override fun findActiveJetpack(entity: LivingEntity): IJetpack.Context? {
         if (entity is Player && entity.abilities.flying) return null
         return findJetpack(entity)?.takeIf {
@@ -54,7 +58,7 @@ object FlightApiImpl : IFlightApi {
                 FlightKey.TOGGLE_ACTIVE,
                 entity
             )
-        }?.takeIf { it.jetpack.isUsable(it) }
+        }?.takeIf { it.isUsable() }
     }
 
     override fun isPressed(key: FlightKey, entity: LivingEntity) = ControlManager.isPressed(key, entity)

@@ -13,7 +13,7 @@ object CommonSources {
         IFlightApi.INSTANCE.addSourceProvider { entity ->
             EquipmentSlot.values().map {
                 val stack = entity.getItemBySlot(it)
-                stack.item to EquipmentSource(it)
+                stack.item to EquipmentSource(it, stack)
             }
         }
 
@@ -24,8 +24,11 @@ object CommonSources {
         if (Services.PLATFORM.isDevelopmentEnvironment) {
             IFlightApi.INSTANCE.addSourceCaster {
                 listOf {
-                    if (it == Items.DIAMOND_CHESTPLATE) DevJetpack
-                    else null
+                    when (it) {
+                        Items.DIAMOND_CHESTPLATE -> DevJetpack
+                        Items.SHIELD -> DevJetpack
+                        else -> null
+                    }
                 }
             }
         }
