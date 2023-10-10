@@ -34,7 +34,7 @@ object CuriosCompat {
                 val slots = 0 until handler.slots
                 slots.map { index ->
                     val stack = handler.stacks.getStackInSlot(index)
-                    stack.item to (CuriosSource(slot, index))
+                    stack.item to (CuriosSource(slot, index, stack))
                 }
             }
         }.orElseGet(::emptyList)

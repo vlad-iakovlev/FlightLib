@@ -16,11 +16,11 @@ repositories {
 
 ```kotlin
 dependencies {
-    compileOnly(fg.deobf("com.possible_triangle:flightlib-api:${flightlib_version}"))
-    compileOnly(fg.deobf("com.possible_triangle:flightlib-forge-api:${flightlib_version}"))
-    runtimeOnly(fg.deobf("com.possible_triangle:flightlib-forge:${flightlib_version}"))
+    compileOnly(fg.deobf("com.possible-triangle:flightlib-api:${flightlib_version}"))
+    compileOnly(fg.deobf("com.possible-triangle:flightlib-forge-api:${flightlib_version}"))
+    runtimeOnly(fg.deobf("com.possible-triangle:flightlib-forge:${flightlib_version}"))
     
-    jarJar("com.possible_triangle:flightlib-forge:${flightlib_version}") {
+    jarJar("com.possible-triangle:flightlib-forge:${flightlib_version}") {
         jarJar.ranged(this, "[${flightlib_version},)")
     }
 }
