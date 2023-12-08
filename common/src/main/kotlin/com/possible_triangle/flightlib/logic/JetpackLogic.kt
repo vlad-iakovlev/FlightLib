@@ -61,7 +61,7 @@ object JetpackLogic {
             FlyingPose.UPRIGHT -> uprightMovement(context)
         }
 
-        if (isUsed) {
+        if (isUsed && !context.world.isClientSide) {
             spawnParticles(context)
             playSound(context)
             context.jetpack.onUse(context)
