@@ -11,15 +11,14 @@ import java.util.function.Consumer
 
 object ControlManager {
 
-    private val KEYS = mutableMapOf<Player, MutableMap<FlightKey, Boolean>>()
+    private val KEYS = mutableMapOf<UUID, MutableMap<FlightKey, Boolean>>()
 
     internal fun isPressed(key: FlightKey, entity: LivingEntity): Boolean {
-        if (entity !is Player) return false
-        return KEYS[entity]?.get(key) ?: key.default
+        return KEYS[entity.uuid]?.get(key) ?: key.default
     }
 
     private fun setKey(player: Player, key: FlightKey, pressed: Boolean) {
-        val keys = KEYS.getOrPut(player) { mutableMapOf() }
+        val keys = KEYS.getOrPut(player.uuid) { mutableMapOf() }
         keys[key] = pressed
     }
 
@@ -44,7 +43,7 @@ object ControlManager {
     }
 
     fun reset(player: Player) {
-        KEYS[player]?.apply {
+        KEYS[player.uuid]?.apply {
             FlightKey.values()
                 .filterNot { it.toggle }
                 .forEach { remove(it) }
