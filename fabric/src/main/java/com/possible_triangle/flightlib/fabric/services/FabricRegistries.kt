@@ -10,7 +10,7 @@ import net.minecraft.sounds.SoundEvent
 class FabricRegistries : IRegistries {
 
     private val memoizedSwimSpeed = Suppliers.memoize {
-        BuiltInRegistries.ATTRIBUTE[ResourceLocation("porting_lib", "swim_speed")]
+        Registry.ATTRIBUTE[ResourceLocation("porting_lib", "swim_speed")]
     }
 
     override val swimSpeed get() = memoizedSwimSpeed.get()
