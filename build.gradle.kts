@@ -1,5 +1,5 @@
 plugins {
-    id("com.possible-triangle.gradle") version "0.1.1"
+    id("com.possible-triangle.gradle") version "0.1.4"
 }
 
 withKotlin()
@@ -50,14 +50,7 @@ subprojects {
 
     enablePublishing {
         githubPackages()
-
-        repositories {
-            env["LOCAL_MAVEN"]?.let {
-                maven {
-                    url = uri(it)
-                }
-            }
-        }
+        localMaven()
     }
 }
 

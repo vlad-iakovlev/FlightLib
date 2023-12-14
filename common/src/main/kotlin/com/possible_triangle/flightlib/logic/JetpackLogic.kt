@@ -61,7 +61,7 @@ object JetpackLogic {
             FlyingPose.UPRIGHT -> uprightMovement(context)
         }
 
-        if (isUsed && !context.world.isClientSide) {
+        if (isUsed && context.jetpack.isThrusting(context)) {
             spawnParticles(context)
             playSound(context)
             context.jetpack.onUse(context)
@@ -97,7 +97,7 @@ object JetpackLogic {
     }
 
     private fun elytraBoost(ctx: Context): Boolean {
-        if(!ctx.jetpack.boostsElytra()) return false
+        if (!ctx.jetpack.boostsElytra()) return false
 
         val entity = ctx.entity
         if (!entity.isFallFlying) return true
@@ -169,6 +169,8 @@ object JetpackLogic {
     }
 
     private fun spawnParticles(context: Context) {
+        val world = context.world
+
         val thrusters = context.jetpack.getThrusters(context) ?: return
         val yaw = (context.entity.yBodyRot / 180 * -Math.PI).toFloat()
         val pitch = (context.entity.xRot / 180 * -Math.PI).toFloat()
@@ -179,8 +181,14 @@ object JetpackLogic {
         thrusters.map { it.xRot(xRot) }.map { it.yRot(yaw) }.forEach { pos ->
             val particle = if (context.entity.isUnderWater) ParticleTypes.BUBBLE
             else context.jetpack.createParticles()
-            context.world.addParticle(
-                particle, context.entity.x + pos.x, context.entity.y + pos.y, context.entity.z + pos.z, 0.0, -1.0, 0.0
+            world.addParticle(
+                particle,
+                context.entity.x + pos.x,
+                context.entity.y + pos.y,
+                context.entity.z + pos.z,
+                0.0,
+                -1.0,
+                0.0
             )
         }
     }
