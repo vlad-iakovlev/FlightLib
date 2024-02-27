@@ -97,7 +97,8 @@ object JetpackLogic {
     }
 
     private fun elytraBoost(ctx: Context): Boolean {
-        if (!ctx.jetpack.boostsElytra()) return false
+        val boost = ctx.jetpack.elytraBoost()
+        if (boost <= 0.0) return false
 
         val entity = ctx.entity
         if (!entity.isFallFlying) return true
@@ -105,7 +106,7 @@ object JetpackLogic {
 
         if (entity.level.gameTime % 15 == 0L) {
             val look = entity.lookAngle
-            val factor = { i: Double -> i * 0.1 + (i * 1.1 - i) * 0.5 }
+            val factor = { i: Double -> (i * 0.1 + (i * boost - i) * 0.5) }
             entity.deltaMovement = entity.deltaMovement.add(
                 factor(look.x),
                 factor(look.y),

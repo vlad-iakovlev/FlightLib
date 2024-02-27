@@ -46,7 +46,11 @@ interface IJetpack {
     }
 
     fun swimModifier(context: Context): Double
-    fun boostsElytra(): Boolean = true
+
+    @Deprecated("exact boost amount is now configurable")
+    fun boostsElytra(): Boolean = elytraBoost() > 0.0
+
+    fun elytraBoost(): Double = 1.25
 
     fun isValid(context: Context): Boolean
     fun isUsable(context: Context): Boolean
@@ -65,7 +69,7 @@ interface IJetpack {
 
     fun isThrusting(context: Context): Boolean {
         val entity = context.entity
-        if(entity.vehicle != null) return false
+        if (entity.vehicle != null) return false
         if (!IFlightApi.INSTANCE.isActive(
                 context.jetpack.activeType(context),
                 FlightKey.TOGGLE_ACTIVE,
