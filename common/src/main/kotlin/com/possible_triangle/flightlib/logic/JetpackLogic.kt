@@ -104,16 +104,13 @@ object JetpackLogic {
         if (!entity.isFallFlying) return true
         if (entity !is Player || !FlightKey.UP.isPressed(entity)) return false
 
-        if (entity.level().gameTime % 15 == 0L) {
-            val look = entity.lookAngle
-            val factor = { i: Double -> (i * 0.1 + (i * boost - i) * 0.5) }
-            entity.deltaMovement = entity.deltaMovement.add(
-                factor(look.x),
-                factor(look.y),
-                factor(look.z),
-            )
-
-        }
+        val look = entity.lookAngle
+        val factor = { i: Double -> (i * boost * 0.01) }
+        entity.deltaMovement = entity.deltaMovement.add(
+            factor(look.x),
+            factor(look.y),
+            factor(look.z),
+        )
 
         return true
     }
